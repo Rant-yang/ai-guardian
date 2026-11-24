@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "BeforeTool": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "name": "guardian-local",
+            "type": "command",
+            "command": "D:\\python\\python.exe D:\\defence_agent\\guardian\\hook.py --client gemini --token-file D:\\defence_agent\\.local\\access-token --mode observe",
+            "timeout": 5000
+          }
+        ]
+      }
+    ]
+  }
+}

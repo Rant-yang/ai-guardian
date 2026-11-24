@@ -1,0 +1,44 @@
+[
+  {
+    "case": "normal",
+    "exit_code": 0,
+    "tool_result_received": true,
+    "guardian_denial_seen": false,
+    "scope": "synthetic enforcement only, not production detection accuracy",
+    "normal_output_seen": true,
+    "guardian_events": 1,
+    "execution_states": [
+      "succeeded"
+    ],
+    "output_signal_seen": false
+  },
+  {
+    "case": "risk",
+    "exit_code": 0,
+    "tool_result_received": true,
+    "guardian_denial_seen": true,
+    "scope": "synthetic enforcement only, not production detection accuracy",
+    "normal_output_seen": false,
+    "guardian_events": 2,
+    "execution_states": [
+      "unknown",
+      "succeeded"
+    ],
+    "output_signal_seen": false
+  },
+  {
+    "case": "output-signal",
+    "exit_code": 0,
+    "tool_result_received": true,
+    "guardian_denial_seen": false,
+    "scope": "synthetic enforcement only, not production detection accuracy",
+    "normal_output_seen": false,
+    "guardian_events": 3,
+    "execution_states": [
+      "succeeded",
+      "unknown",
+      "succeeded"
+    ],
+    "output_signal_seen": true
+  }
+]

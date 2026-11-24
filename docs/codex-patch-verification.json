@@ -1,0 +1,107 @@
+{
+  "version": "codex-cli 0.128.0",
+  "scope": "isolated temporary Codex home/workspace with fixed loopback model, no real user data",
+  "cases": [
+    {
+      "case": "add-normal",
+      "exit_code": 0,
+      "model_requests": 2,
+      "tool_offered": true,
+      "tool_result_received": true,
+      "events": [
+        {
+          "tool_name": "apply_patch",
+          "verdict": "pass",
+          "execution_state": "tool_returned",
+          "findings": []
+        }
+      ],
+      "normal_file_intact": true,
+      "sensitive_file_absent": true,
+      "guardian_denial_returned": false,
+      "passed": true
+    },
+    {
+      "case": "add-sensitive",
+      "exit_code": 0,
+      "model_requests": 2,
+      "tool_offered": true,
+      "tool_result_received": true,
+      "events": [
+        {
+          "tool_name": "apply_patch",
+          "verdict": "review",
+          "execution_state": "unknown",
+          "findings": [
+            "sensitive_file_access"
+          ]
+        }
+      ],
+      "normal_file_intact": true,
+      "sensitive_file_absent": true,
+      "guardian_denial_returned": true,
+      "passed": true
+    },
+    {
+      "case": "delete-normal",
+      "exit_code": 0,
+      "model_requests": 2,
+      "tool_offered": true,
+      "tool_result_received": true,
+      "events": [
+        {
+          "tool_name": "apply_patch",
+          "verdict": "review",
+          "execution_state": "unknown",
+          "findings": [
+            "patch_delete_review"
+          ]
+        }
+      ],
+      "normal_file_intact": true,
+      "sensitive_file_absent": true,
+      "guardian_denial_returned": true,
+      "passed": true
+    },
+    {
+      "case": "approved-retry-once",
+      "exit_code": 0,
+      "model_requests": 4,
+      "tool_offered": true,
+      "tool_result_received": true,
+      "events": [
+        {
+          "tool_name": "apply_patch",
+          "verdict": "review",
+          "execution_state": "unknown",
+          "findings": [
+            "sensitive_file_access"
+          ]
+        },
+        {
+          "tool_name": "apply_patch",
+          "verdict": "pass",
+          "execution_state": "tool_returned",
+          "findings": [
+            "sensitive_file_access"
+          ]
+        },
+        {
+          "tool_name": "apply_patch",
+          "verdict": "review",
+          "execution_state": "unknown",
+          "findings": [
+            "sensitive_file_access"
+          ]
+        }
+      ],
+      "normal_file_intact": true,
+      "sensitive_file_absent": false,
+      "guardian_denial_returned": true,
+      "passed": true,
+      "synthetic_sensitive_file_exact": true,
+      "approved_retry_linked": true
+    }
+  ],
+  "passed": true
+}

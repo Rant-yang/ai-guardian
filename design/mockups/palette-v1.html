@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>配色方案</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#0b0b0d;color:#e9e9ee;padding:28px 30px 40px;
+  font-family:"Inter","PingFang SC","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+h1{font-size:17px;font-weight:650;letter-spacing:.02em}
+.sub{font-size:12px;color:#7b7b86;margin-top:6px;margin-bottom:22px;line-height:1.7}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{
+  border-radius:16px;overflow:hidden;cursor:pointer;position:relative;
+  border:1px solid #222228;transition:.2s;background:#111114;
+}
+.card:hover{border-color:#3a3a44;transform:translateY(-2px)}
+.card.sel{border-color:#5b8cff;box-shadow:0 0 0 2px rgba(91,140,255,.35),0 14px 40px rgba(0,0,0,.5)}
+.card .tag{
+  position:absolute;top:10px;right:12px;z-index:9;font-size:10px;letter-spacing:.1em;
+  padding:3px 8px;border-radius:5px;background:rgba(0,0,0,.45);color:#a9a9b4;
+  border:1px solid rgba(255,255,255,.08)
+}
+.card.sel .tag{background:#5b8cff;color:#fff;border-color:transparent}
+
+/* ---------- mini dashboard ---------- */
+.mini{
+  height:232px;padding:14px;display:flex;flex-direction:column;gap:9px;position:relative;overflow:hidden;
+  background:var(--bg);color:var(--txt);
+  font-family:"Inter","PingFang SC",system-ui,sans-serif;
+}
+.mini::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:var(--glow);
+}
+.mtop{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2}
+.mbrand{display:flex;align-items:center;gap:8px}
+.mdot{width:16px;height:16px;border-radius:5px;background:var(--acc);box-shadow:0 0 14px var(--accA)}
+.mname{font-size:9.5px;letter-spacing:.18em;font-weight:700;color:var(--txt)}
+.mpill{
+  font-size:8px;letter-spacing:.1em;padding:3px 8px;border-radius:99px;
+  color:var(--acc);border:1px solid var(--accB);background:var(--accA2)
+}
+.mrow{
+  display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:7px;
+  background:var(--panel);border:1px solid var(--line);font-size:10px;position:relative;z-index:2
+}
+.mrow .b{width:5px;height:5px;border-radius:50%;flex:none}
+.mrow .tx{flex:1;color:var(--txt);opacity:.92;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mrow .vd{font-size:8px;padding:1.5px 6px;border-radius:4px;white-space:nowrap}
+.mrow.block{background:var(--badBg);border-color:var(--badLine)}
+.mrow.block .b{background:var(--bad);box-shadow:0 0 8px var(--bad)}
+.mrow.block .vd{color:var(--bad);background:var(--badBg2)}
+.mrow.ok .b{background:var(--acc)}
+.mrow.ok .vd{color:var(--acc);background:var(--accA2)}
+.mrow.warn .b{background:var(--warn)}
+.mrow.warn .vd{color:var(--warn);background:var(--warnBg)}
+
+/* core orb */
+.mcore{position:absolute;right:18px;bottom:12px;width:86px;height:86px;z-index:2}
+.ring{
+  position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 0deg, transparent 0 62%, var(--acc) 88%, transparent 100%);
+  -webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 0);
+          mask:radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 0);
+  animation:spin 3.2s linear infinite;
+}
+.ring2{
+  position:absolute;inset:11px;border-radius:50%;
+  background:conic-gradient(from 180deg, transparent 0 70%, var(--acc2, var(--acc)) 90%, transparent 100%);
+  -webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 2px), #000 0);
+          mask:radial-gradient(farthest-side, transparent calc(100% - 2px), #000 0);
+  animation:spin 2.1s linear infinite reverse;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.orb{
+  position:absolute;inset:26px;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%, #fff, var(--acc) 45%, var(--accDeep) 100%);
+  box-shadow:0 0 26px var(--accA), 0 0 60px var(--accA2);
+  animation:breathe 2.4s ease-in-out infinite;
+}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.09)}}
+
+.cap{padding:11px 14px 13px;border-top:1px solid #222228;background:#111114}
+.cap h3{font-size:12.5px;font-weight:600;letter-spacing:.02em}
+.cap p{font-size:10.5px;color:#7b7b86;margin-top:4px;line-height:1.6}
+
+/* ---------- palettes ---------- */
+/* A 酸绿 */
+.card[data-c="a"]{
+  --bg:#0a0a0b; --panel:#141417; --line:#26262c; --txt:#f2f2f4;
+  --acc:#c8ff4d; --acc2:#8ef0a0; --accDeep:#4e7a00;
+  --accA:rgba(200,255,77,.55); --accA2:rgba(200,255,77,.09); --accB:rgba(200,255,77,.35);
+  --warn:#ffa53d; --warnBg:rgba(255,165,61,.12);
+  --bad:#ff5470; --badBg:rgba(255,84,112,.08); --badBg2:rgba(255,84,112,.16); --badLine:rgba(255,84,112,.35);
+  --glow:radial-gradient(420px 240px at 78% 92%, rgba(200,255,77,.07), transparent 70%);
+}
+/* B 暖铜 */
+.card[data-c="b"]{
+  --bg:#0d0a08; --panel:#191310; --line:#2c221c; --txt:#f6efe9;
+  --acc:#ff9a4d; --acc2:#ffd08a; --accDeep:#8a3f00;
+  --accA:rgba(255,154,77,.5); --accA2:rgba(255,154,77,.09); --accB:rgba(255,154,77,.35);
+  --warn:#f2d06b; --warnBg:rgba(242,208,107,.12);
+  --bad:#ff5c6b; --badBg:rgba(255,92,107,.08); --badBg2:rgba(255,92,107,.16); --badLine:rgba(255,92,107,.32);
+  --glow:radial-gradient(420px 240px at 78% 92%, rgba(255,154,77,.08), transparent 70%);
+}
+/* C 极光紫 */
+.card[data-c="c"]{
+  --bg:#08060f; --panel:#130e21; --line:#241b3a; --txt:#f0ecfb;
+  --acc:#b98bff; --acc2:#ff8de0; --accDeep:#4a1f96;
+  --accA:rgba(185,139,255,.5); --accA2:rgba(185,139,255,.09); --accB:rgba(185,139,255,.35);
+  --warn:#ffc94d; --warnBg:rgba(255,201,77,.12);
+  --bad:#ff5a8a; --badBg:rgba(255,90,138,.09); --badBg2:rgba(255,90,138,.17); --badLine:rgba(255,90,138,.34);
+  --glow:radial-gradient(420px 240px at 78% 92%, rgba(185,139,255,.10), transparent 70%),
+         radial-gradient(300px 200px at 5% 0%, rgba(255,141,224,.06), transparent 70%);
+}
+/* D 暖白 */
+.card[data-c="d"]{
+  --bg:#f6f4ef; --panel:#ffffff; --line:#e2ded4; --txt:#17181c;
+  --acc:#1f6f5c; --acc2:#3fa88c; --accDeep:#0d3d31;
+  --accA:rgba(31,111,92,.35); --accA2:rgba(31,111,92,.08); --accB:rgba(31,111,92,.3);
+  --warn:#b26b00; --warnBg:rgba(178,107,0,.10);
+  --bad:#c62338; --badBg:rgba(198,35,56,.05); --badBg2:rgba(198,35,56,.12); --badLine:rgba(198,35,56,.25);
+  --glow:radial-gradient(420px 240px at 78% 92%, rgba(31,111,92,.07), transparent 70%);
+}
+.card[data-c="d"] .mini::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(500px 300px at 50% 0%, rgba(255,255,255,.9), transparent 70%);
+}
+.card[data-c="d"] .orb{box-shadow:0 0 18px rgba(31,111,92,.30), 0 0 46px rgba(31,111,92,.14)}
+.card[data-c="d"] .mdot{box-shadow:0 0 10px rgba(31,111,92,.35)}
+
+.note{margin-top:20px;font-size:11.5px;color:#6f6f7a;line-height:1.8}
+.note b{color:#a9a9b4;font-weight:600}
+</style>
+</head>
+<body>
+<h1>背景与配色 —— 四套方向</h1>
+<p class="sub">同一套面板换四种气质。点一张卡片选择，然后在终端里告诉我你选哪套、或者哪套的哪个部分要保留。</p>
+
+<div class="grid">
+
+  <div class="card" data-c="a" onclick="pick(this)">
+    <span class="tag">A</span>
+    <div class="mini">
+      <div class="mtop">
+        <div class="mbrand"><div class="mdot"></div><div class="mname">AI GUARDIAN</div></div>
+        <div class="mpill">防护中</div>
+      </div>
+      <div class="mrow block"><span class="b"></span><span class="tx">拦截文件上传 · paste.example.io</span><span class="vd">已阻断</span></div>
+      <div class="mrow warn"><span class="b"></span><span class="tx">检测到外部页面诱导语句</span><span class="vd">待复核</span></div>
+      <div class="mrow ok"><span class="b"></span><span class="tx">读取 notes.md</span><span class="vd">通过</span></div>
+      <div class="mcore"><div class="ring"></div><div class="ring2"></div><div class="orb"></div></div>
+    </div>
+    <div class="cap"><h3>A · 近黑 + 酸绿</h3><p>最干净、最锐利。酸绿对比度极高，截图一眼抓住人。</p></div>
+  </div>
+
+  <div class="card" data-c="b" onclick="pick(this)">
+    <span class="tag">B</span>
+    <div class="mini">
+      <div class="mtop">
+        <div class="mbrand"><div class="mdot"></div><div class="mname">AI GUARDIAN</div></div>
+        <div class="mpill">防护中</div>
+      </div>
+      <div class="mrow block"><span class="b"></span><span class="tx">拦截文件上传 · paste.example.io</span><span class="vd">已阻断</span></div>
+      <div class="mrow warn"><span class="b"></span><span class="tx">检测到外部页面诱导语句</span><span class="vd">待复核</span></div>
+      <div class="mrow ok"><span class="b"></span><span class="tx">读取 notes.md</span><span class="vd">通过</span></div>
+      <div class="mcore"><div class="ring"></div><div class="ring2"></div><div class="orb"></div></div>
+    </div>
+    <div class="cap"><h3>B · 暖黑 + 铜橙</h3><p>最不像"科技蓝"。暖色底让红色的危险提示不那么刺眼。</p></div>
+  </div>
+
+  <div class="card" data-c="c" onclick="pick(this)">
+    <span class="tag">C</span>
+    <div class="mini">
+      <div class="mtop">
+        <div class="mbrand"><div class="mdot"></div><div class="mname">AI GUARDIAN</div></div>
+        <div class="mpill">防护中</div>
+      </div>
+      <div class="mrow block"><span class="b"></span><span class="tx">拦截文件上传 · paste.example.io</span><span class="vd">已阻断</span></div>
+      <div class="mrow warn"><span class="b"></span><span class="tx">检测到外部页面诱导语句</span><span class="vd">待复核</span></div>
+      <div class="mrow ok"><span class="b"></span><span class="tx">读取 notes.md</span><span class="vd">通过</span></div>
+      <div class="mcore"><div class="ring"></div><div class="ring2"></div><div class="orb"></div></div>
+    </div>
+    <div class="cap"><h3>C · 深靛 + 极光紫</h3><p>最有"未来感"。紫粉渐变在深底上层次最丰富。</p></div>
+  </div>
+
+  <div class="card" data-c="d" onclick="pick(this)">
+    <span class="tag">D</span>
+    <div class="mini">
+      <div class="mtop">
+        <div class="mbrand"><div class="mdot"></div><div class="mname">AI GUARDIAN</div></div>
+        <div class="mpill">防护中</div>
+      </div>
+      <div class="mrow block"><span class="b"></span><span class="tx">拦截文件上传 · paste.example.io</span><span class="vd">已阻断</span></div>
+      <div class="mrow warn"><span class="b"></span><span class="tx">检测到外部页面诱导语句</span><span class="vd">待复核</span></div>
+      <div class="mrow ok"><span class="b"></span><span class="tx">读取 notes.md</span><span class="vd">通过</span></div>
+      <div class="mcore"><div class="ring"></div><div class="ring2"></div><div class="orb"></div></div>
+    </div>
+    <div class="cap"><h3>D · 暖白 + 墨绿</h3><p>完全反向。像专业工具而不是黑客终端，白天看最舒服。</p></div>
+  </div>
+
+</div>
+
+<p class="note">
+  <b>我的倾向是 A。</b>理由：你要的是"炫酷 + 代表作"，酸绿在深底上的发光效果最抢眼，而且和红色的"已阻断"对比最强，截图发到 GitHub README 里最抓人。
+  <br>如果你觉得深色本身才是"老气"的来源，那 D 是唯一能解决这个问题的选项——但它会牺牲一点"炫"。
+</p>
+
+<script>
+function pick(el){
+  document.querySelectorAll('.card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+[
+  {
+    "case": "normal",
+    "exit_code": 0,
+    "tool_result_received": true,
+    "normal_output_seen": true,
+    "tool_result_error": false,
+    "guardian_denial_seen": false,
+    "guardian_events": 1,
+    "scope": "synthetic enforcement only, not production detection accuracy",
+    "execution_states": [
+      "tool_returned"
+    ],
+    "output_signal_seen": false,
+    "output_text_seen": false,
+    "output_scans": [
+      {
+        "version": "output-1",
+        "status": "scanned",
+        "characters_scanned": 25,
+        "truncated": false,
+        "findings": []
+      }
+    ],
+    "hook_output_shape": {
+      "keys": [
+        "title",
+        "metadata",
+        "output",
+        "attachments"
+      ],
+      "types": {
+        "title": "string",
+        "metadata": "object",
+        "output": "string",
+        "attachments": "undefined"
+      }
+    }
+  },
+  {
+    "case": "risk",
+    "exit_code": 0,
+    "tool_result_received": true,
+    "normal_output_seen": false,
+    "tool_result_error": true,
+    "guardian_denial_seen": true,
+    "guardian_events": 1,
+    "scope": "synthetic enforcement only, not production detection accuracy",
+    "execution_states": [
+      "blocked"
+    ],
+    "output_signal_seen": false,
+    "output_text_seen": false,
+    "output_scans": [
+      null
+    ],
+    "hook_output_shape": null
+  },
+  {
+    "case": "output-signal",
+    "exit_code": 0,
+    "tool_result_received": true,
+    "normal_output_seen": false,
+    "tool_result_error": false,
+    "guardian_denial_seen": false,
+    "guardian_events": 1,
+    "scope": "synthetic enforcement only, not production detection accuracy",
+    "execution_states": [
+      "tool_returned"
+    ],
+    "output_signal_seen": true,
+    "output_text_seen": true,
+    "output_scans": [
+      {
+        "version": "output-1",
+        "status": "scanned",
+        "characters_scanned": 57,
+        "truncated": false,
+        "findings": [
+          "instruction_override"
+        ]
+      }
+    ],
+    "hook_output_shape": {
+      "keys": [
+        "title",
+        "metadata",
+        "output",
+        "attachments"
+      ],
+      "types": {
+        "title": "string",
+        "metadata": "object",
+        "output": "string",
+        "attachments": "undefined"
+      }
+    }
+  }
+]

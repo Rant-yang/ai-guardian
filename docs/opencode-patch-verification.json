@@ -1,0 +1,68 @@
+{
+  "client_version": "1.19.0",
+  "scope": "real OpenCode, loopback fixture model, temporary files only; no cloud or user configuration changes",
+  "cases": [
+    {
+      "case": "add-normal",
+      "exit_code": 0,
+      "tool_offered": true,
+      "tool_result_received": true,
+      "event_count": 1,
+      "verdicts": [
+        "pass"
+      ],
+      "receipts": [
+        "tool_returned"
+      ],
+      "findings": [
+        []
+      ],
+      "normal_file_intact": true,
+      "sensitive_file_absent": true,
+      "passed": true
+    },
+    {
+      "case": "add-sensitive",
+      "exit_code": 0,
+      "tool_offered": true,
+      "tool_result_received": true,
+      "event_count": 1,
+      "verdicts": [
+        "review"
+      ],
+      "receipts": [
+        "blocked"
+      ],
+      "findings": [
+        [
+          "sensitive_file_access"
+        ]
+      ],
+      "normal_file_intact": true,
+      "sensitive_file_absent": true,
+      "passed": true
+    },
+    {
+      "case": "delete-normal",
+      "exit_code": 0,
+      "tool_offered": true,
+      "tool_result_received": true,
+      "event_count": 1,
+      "verdicts": [
+        "review"
+      ],
+      "receipts": [
+        "blocked"
+      ],
+      "findings": [
+        [
+          "patch_delete_review"
+        ]
+      ],
+      "normal_file_intact": true,
+      "sensitive_file_absent": true,
+      "passed": true
+    }
+  ],
+  "passed": true
+}

@@ -1,0 +1,23 @@
+{
+  "client": "Claude Code 2.1.220",
+  "model": "local protocol fixture, not real model inference",
+  "normal": {
+    "exit_code": 0,
+    "tool_result_received": true,
+    "guardian_denial_seen": false,
+    "normal_output_seen": true,
+    "guardian_events": 1
+  },
+  "risk": {
+    "exit_code": 0,
+    "tool_result_received": true,
+    "guardian_denial_seen": true,
+    "normal_output_seen": false,
+    "guardian_events": 2
+  },
+  "limitations": [
+    "Only harmless printf commands were offered",
+    "Verifies client enforcement, not semantic detection accuracy",
+    "Isolated settings; daily client configuration not changed"
+  ]
+}

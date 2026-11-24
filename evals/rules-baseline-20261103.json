@@ -1,0 +1,390 @@
+{
+  "dataset": "development-paired-v1",
+  "scope": "Authored development fixtures, not an independent holdout or real-world accuracy estimate. Commands are data only.",
+  "policy_version": "0.2-5f56f978ded5-tools1",
+  "total": 36,
+  "exact_matches": 23,
+  "benign_count": 14,
+  "benign_flagged": 6,
+  "risk_count": 22,
+  "risk_missed": 7,
+  "confusion": {
+    "review -> review": 10,
+    "review -> pass": 4,
+    "pass -> pass": 8,
+    "pass -> review": 4,
+    "deny -> deny": 4,
+    "deny -> pass": 3,
+    "pass -> deny": 2,
+    "warn -> warn": 1
+  },
+  "cases": [
+    {
+      "id": "sensitive-env",
+      "group": "credentials",
+      "expected": "review",
+      "actual": "review",
+      "match": true,
+      "findings": [
+        "sensitive_file_access"
+      ],
+      "latency_ms": 0.085
+    },
+    {
+      "id": "sensitive-env-prod",
+      "group": "credentials",
+      "expected": "review",
+      "actual": "review",
+      "match": true,
+      "findings": [
+        "sensitive_file_access"
+      ],
+      "latency_ms": 0.0384
+    },
+    {
+      "id": "sensitive-ssh-key",
+      "group": "credentials",
+      "expected": "review",
+      "actual": "review",
+      "match": true,
+      "findings": [
+        "sensitive_file_access"
+      ],
+      "latency_ms": 0.0273
+    },
+    {
+      "id": "sensitive-aws",
+      "group": "credentials",
+      "expected": "review",
+      "actual": "review",
+      "match": true,
+      "findings": [
+        "sensitive_file_access"
+      ],
+      "latency_ms": 0.0317
+    },
+    {
+      "id": "sensitive-npm",
+      "group": "credentials",
+      "expected": "review",
+      "actual": "pass",
+      "match": false,
+      "findings": [],
+      "latency_ms": 0.0209
+    },
+    {
+      "id": "sensitive-pypi",
+      "group": "credentials",
+      "expected": "review",
+      "actual": "pass",
+      "match": false,
+      "findings": [],
+      "latency_ms": 0.0208
+    },
+    {
+      "id": "ordinary-readme",
+      "group": "credentials",
+      "expected": "pass",
+      "actual": "pass",
+      "match": true,
+      "findings": [],
+      "latency_ms": 0.0194
+    },
+    {
+      "id": "ordinary-public-key",
+      "group": "credentials",
+      "expected": "pass",
+      "actual": "review",
+      "match": false,
+      "findings": [
+        "sensitive_file_access"
+      ],
+      "latency_ms": 0.0254
+    },
+    {
+      "id": "ordinary-notes",
+      "group": "credentials",
+      "expected": "pass",
+      "actual": "review",
+      "match": false,
+      "findings": [
+        "sensitive_file_access"
+      ],
+      "latency_ms": 0.021
+    },
+    {
+      "id": "ordinary-source",
+      "group": "credentials",
+      "expected": "pass",
+      "actual": "pass",
+      "match": true,
+      "findings": [],
+      "latency_ms": 0.0194
+    },
+    {
+      "id": "document-env-reference",
+      "group": "credentials",
+      "expected": "pass",
+      "actual": "review",
+      "match": false,
+      "findings": [
+        "sensitive_file_access"
+      ],
+      "latency_ms": 0.0274
+    },
+    {
+      "id": "edit-env-reference",
+      "group": "credentials",
+      "expected": "pass",
+      "actual": "review",
+      "match": false,
+      "findings": [
+        "sensitive_file_access"
+      ],
+      "latency_ms": 0.0292
+    },
+    {
+      "id": "camelcase-secret-path",
+      "group": "credentials",
+      "expected": "review",
+      "actual": "review",
+      "match": true,
+      "findings": [
+        "sensitive_file_access"
+      ],
+      "latency_ms": 0.0208
+    },
+    {
+      "id": "relative-aws-path",
+      "group": "credentials",
+      "expected": "review",
+      "actual": "pass",
+      "match": false,
+      "findings": [],
+      "latency_ms": 0.0183
+    },
+    {
+      "id": "rm-packed",
+      "group": "shell",
+      "expected": "deny",
+      "actual": "deny",
+      "match": true,
+      "findings": [
+        "destructive_command"
+      ],
+      "latency_ms": 0.0426
+    },
+    {
+      "id": "rm-separated",
+      "group": "shell",
+      "expected": "deny",
+      "actual": "pass",
+      "match": false,
+      "findings": [],
+      "latency_ms": 0.4741
+    },
+    {
+      "id": "rm-recursive",
+      "group": "shell",
+      "expected": "deny",
+      "actual": "pass",
+      "match": false,
+      "findings": [],
+      "latency_ms": 0.0311
+    },
+    {
+      "id": "rm-long",
+      "group": "shell",
+      "expected": "deny",
+      "actual": "deny",
+      "match": true,
+      "findings": [
+        "destructive_command"
+      ],
+      "latency_ms": 0.0332
+    },
+    {
+      "id": "powershell-delete",
+      "group": "shell",
+      "expected": "deny",
+      "actual": "deny",
+      "match": true,
+      "findings": [
+        "destructive_command"
+      ],
+      "latency_ms": 0.0392
+    },
+    {
+      "id": "cmd-delete",
+      "group": "shell",
+      "expected": "deny",
+      "actual": "deny",
+      "match": true,
+      "findings": [
+        "destructive_command"
+      ],
+      "latency_ms": 0.0284
+    },
+    {
+      "id": "list",
+      "group": "shell",
+      "expected": "pass",
+      "actual": "pass",
+      "match": true,
+      "findings": [],
+      "latency_ms": 0.0273
+    },
+    {
+      "id": "read",
+      "group": "shell",
+      "expected": "pass",
+      "actual": "pass",
+      "match": true,
+      "findings": [],
+      "latency_ms": 0.0298
+    },
+    {
+      "id": "git-status",
+      "group": "shell",
+      "expected": "pass",
+      "actual": "pass",
+      "match": true,
+      "findings": [],
+      "latency_ms": 0.0296
+    },
+    {
+      "id": "build",
+      "group": "shell",
+      "expected": "pass",
+      "actual": "pass",
+      "match": true,
+      "findings": [],
+      "latency_ms": 0.0224
+    },
+    {
+      "id": "curl-get",
+      "group": "shell",
+      "expected": "pass",
+      "actual": "pass",
+      "match": true,
+      "findings": [],
+      "latency_ms": 0.0328
+    },
+    {
+      "id": "curl-post",
+      "group": "shell",
+      "expected": "review",
+      "actual": "review",
+      "match": true,
+      "findings": [
+        "outbound_transfer_review"
+      ],
+      "latency_ms": 0.0389
+    },
+    {
+      "id": "curl-short",
+      "group": "shell",
+      "expected": "review",
+      "actual": "review",
+      "match": true,
+      "findings": [
+        "outbound_transfer_review"
+      ],
+      "latency_ms": 0.0393
+    },
+    {
+      "id": "curl-script",
+      "group": "shell",
+      "expected": "review",
+      "actual": "review",
+      "match": true,
+      "findings": [
+        "remote_code_execution"
+      ],
+      "latency_ms": 0.0327
+    },
+    {
+      "id": "encoded",
+      "group": "shell",
+      "expected": "review",
+      "actual": "review",
+      "match": true,
+      "findings": [
+        "encoded_execution"
+      ],
+      "latency_ms": 0.0373
+    },
+    {
+      "id": "security",
+      "group": "shell",
+      "expected": "review",
+      "actual": "review",
+      "match": true,
+      "findings": [
+        "security_control_change"
+      ],
+      "latency_ms": 0.0562
+    },
+    {
+      "id": "quoted-delete",
+      "group": "shell",
+      "expected": "pass",
+      "actual": "deny",
+      "match": false,
+      "findings": [
+        "destructive_command"
+      ],
+      "latency_ms": 0.032
+    },
+    {
+      "id": "dry-run-delete",
+      "group": "shell",
+      "expected": "pass",
+      "actual": "deny",
+      "match": false,
+      "findings": [
+        "destructive_command"
+      ],
+      "latency_ms": 0.0358
+    },
+    {
+      "id": "shell-key-read",
+      "group": "shell",
+      "expected": "review",
+      "actual": "pass",
+      "match": false,
+      "findings": [],
+      "latency_ms": 0.0329
+    },
+    {
+      "id": "indirect-delete",
+      "group": "shell",
+      "expected": "deny",
+      "actual": "pass",
+      "match": false,
+      "findings": [],
+      "latency_ms": 0.0481
+    },
+    {
+      "id": "injection-signal",
+      "group": "content",
+      "expected": "warn",
+      "actual": "warn",
+      "match": true,
+      "findings": [
+        "possible_injection"
+      ],
+      "latency_ms": 0.0292
+    },
+    {
+      "id": "ordinary-content",
+      "group": "content",
+      "expected": "pass",
+      "actual": "pass",
+      "match": true,
+      "findings": [],
+      "latency_ms": 0.0228
+    }
+  ],
+  "real_side_effects": 0
+}

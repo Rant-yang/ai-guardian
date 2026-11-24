@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "D:/python/python.exe D:/defence_agent/guardian/hook.py --token-file D:/defence_agent/.local/access-token --mode observe",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

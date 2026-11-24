@@ -1,0 +1,166 @@
+{
+  "version": "0.8",
+  "rules": [
+    {
+      "id": "possible_injection",
+      "title": "疑似指令注入",
+      "action": "warn",
+      "tools": [],
+      "field": "*",
+      "patterns": [
+        "ignore (all |previous )?instructions|忽略.{0,8}(指令|规则)|system prompt"
+      ],
+      "reason": "参数含指令覆盖表达；引用也可能命中。",
+      "impact": "可能改变 Agent 的任务方向；仅提示，需结合上下文。"
+    },
+    {
+      "id": "destructive_command",
+      "title": "递归删除或磁盘破坏",
+      "action": "deny",
+      "tools": [
+        "Bash"
+      ],
+      "field": "command",
+      "patterns": [
+        "\\brm\\s+(?:[^\\n]*\\s)?(?:-[a-z]*r[a-z]*(?=\\s|$)|--recursive\\b)",
+        "\\b(?:Remove-Item|ri|del|rd|rmdir)\\b[^\\n]*(?:-Recurse|/s\\b)",
+        "\\bformat(?:\\.com)?\\s+[a-z]:",
+        "\\b(?:mkfs(?:\\.[a-z0-9]+)?|diskpart)\\b"
+      ],
+      "reason": "命中递归删除或磁盘操作特征。",
+      "impact": "可能永久删除文件或破坏文件系统。"
+    },
+    {
+      "id": "outbound_transfer_review",
+      "title": "网络提交与上传",
+      "action": "review",
+      "tools": [
+        "Bash"
+      ],
+      "field": "command",
+      "all": true,
+      "patterns": [
+        "\\b(?:curl|wget)(?:\\.exe)?\\b|Invoke-WebRequest|Invoke-RestMethod",
+        "--data|--upload|-d\\b|-T\\b|-Body\\b|--post|@"
+      ],
+      "reason": "网络命令带上传或提交数据特征。",
+      "impact": "可能把本地内容发送给目标服务器。"
+    },
+    {
+      "id": "outbound_transfer_review",
+      "title": "合成上传演示",
+      "action": "review",
+      "tools": [
+        "guardian_demo_upload"
+      ],
+      "field": "*",
+      "patterns": [
+        ".*"
+      ],
+      "reason": "演示上传需要确认。",
+      "impact": "仅合成副作用，不上传真实数据。"
+    },
+    {
+      "id": "remote_code_execution",
+      "title": "下载内容直接执行",
+      "action": "review",
+      "tools": [
+        "Bash"
+      ],
+      "field": "command",
+      "patterns": [
+        "(?:curl|wget|Invoke-WebRequest|Invoke-RestMethod|\\biwr\\b|\\birm\\b)[^\\n]*\\|\\s*(?:sh|bash|pwsh|powershell|iex|Invoke-Expression)\\b"
+      ],
+      "reason": "网络返回内容被直接交给解释器。",
+      "impact": "远端脚本可能以当前用户权限执行。"
+    },
+    {
+      "id": "encoded_execution",
+      "title": "编码命令执行",
+      "action": "review",
+      "tools": [
+        "Bash"
+      ],
+      "field": "command",
+      "patterns": [
+        "\\b(?:powershell|pwsh)(?:\\.exe)?(?=[ \\t\"\u0027])[^\\r\\n]*[ \\t](?:--?|/)(?:e|ec|en|enc|enco|encod|encode|encoded|encodedc|encodedco|encodedcom|encodedcomm|encodedcomma|encodedcomman|encodedcommand)(?=[ \\t\\r\\n]|$)",
+        "base64\\s+[^\\n]*(?:-d|--decode)[^\\n]*\\|\\s*(?:sh|bash)"
+      ],
+      "reason": "命中编码执行的词法特征；未解码或执行内容，引用文本也可能命中，需要核对实际用途。",
+      "impact": "可能隐藏文件、网络或系统修改动作。"
+    },
+    {
+      "id": "sensitive_file_access",
+      "title": "敏感凭据文件访问",
+      "action": "review",
+      "tools": [
+        "Read",
+        "Write",
+        "Edit"
+      ],
+      "field": "paths",
+      "patterns": [
+        "(?:^|/)\\.env(?:\\.[^/\\n]+)?$",
+        "(?:^|/)(?:id_rsa|id_ed25519|id_ecdsa|id_dsa)$",
+        "(?:^|/)\\.aws/credentials$",
+        "(?:^|/)\\.ssh/config$",
+        "(?:^|/)(?:\\.npmrc|\\.pypirc)$",
+        "(?:^|/)\\.git-credentials$",
+        "(?:^|/)\\.config/git/credentials$",
+        "(?:^|/)\\.docker/config\\.json$"
+      ],
+      "reason": "目标路径指向可能含凭据的文件；文档正文提及文件名不会命中本规则。",
+      "impact": "读取可能向模型上下文暴露密钥；写入可能改变认证行为。"
+    },
+    {
+      "id": "security_control_change",
+      "title": "修改系统防护设置",
+      "action": "review",
+      "tools": [
+        "Bash"
+      ],
+      "field": "command",
+      "patterns": [
+        "Set-MpPreference[^\\n]*Disable|netsh[^\\n]*advfirewall[^\\n]*off",
+        "Set-ExecutionPolicy[^\\n]*(?:Unrestricted|Bypass)"
+      ],
+      "reason": "命令可能降低系统防护或脚本执行限制。",
+      "impact": "影响可能持续到后续会话，需要明确授权。"
+    },
+    {
+      "id": "shell_sensitive_file_access",
+      "title": "Shell 读取敏感凭据文件",
+      "action": "review",
+      "tools": [
+        "Bash"
+      ],
+      "field": "shell_read_paths",
+      "patterns": [
+        "(?:^|/)\\.env(?:\\.[^/\\n]+)?$",
+        "(?:^|/)(?:id_rsa|id_ed25519|id_ecdsa|id_dsa)$",
+        "(?:^|/)\\.aws/credentials$",
+        "(?:^|/)\\.ssh/config$",
+        "(?:^|/)(?:\\.npmrc|\\.pypirc)$",
+        "(?:^|/)\\.git-credentials$",
+        "(?:^|/)\\.config/git/credentials$",
+        "(?:^|/)\\.docker/config\\.json$"
+      ],
+      "reason": "直接读取命令的字面量目标指向可能含凭据的文件；不解析变量、脚本或完整 Shell 语法。",
+      "impact": "读取可能向模型上下文暴露密钥；写入可能改变认证行为。"
+    },
+    {
+      "id": "python_recursive_delete",
+      "title": "Python 直接递归删除目录",
+      "action": "deny",
+      "tools": [
+        "Bash"
+      ],
+      "field": "python_calls",
+      "patterns": [
+        "^shutil\\.rmtree$"
+      ],
+      "reason": "在受支持的 python -c 字面量语法中，发现导入 shutil 后直接调用 rmtree，目标为字面量路径。",
+      "impact": "可能永久删除目标目录及其内容；此规则不执行代码，也不能覆盖完整 Shell 或 Python 语义。"
+    }
+  ]
+}

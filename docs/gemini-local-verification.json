@@ -1,0 +1,26 @@
+[
+  {
+    "case": "normal",
+    "exit_code": 0,
+    "model_received_tool_result": true,
+    "read_marker_seen": true,
+    "denial_seen": false,
+    "guardian_events": 1,
+    "verdicts": [
+      "pass"
+    ],
+    "scope": "synthetic real CLI pipeline only, no execution receipt correlation"
+  },
+  {
+    "case": "synthetic-deny",
+    "exit_code": 0,
+    "model_received_tool_result": true,
+    "read_marker_seen": false,
+    "denial_seen": true,
+    "guardian_events": 1,
+    "verdicts": [
+      "deny"
+    ],
+    "scope": "synthetic real CLI pipeline only, no execution receipt correlation"
+  }
+]

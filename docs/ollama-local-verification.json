@@ -1,0 +1,31 @@
+{
+  "event": {
+    "event_id": "7f93d140-d05b-4854-a851-5b47f5a45693",
+    "session_id": "746aae0c6ec6d042",
+    "occurred_at": "2026-10-30T11:17:50.028809+08:00",
+    "tool_name": "OllamaGenerate",
+    "arguments_digest": "3dace22350bb5f93883ec4dc0c1996d76271c6aa238632dea7d3edb66c39d3dc",
+    "phase": "model_input",
+    "adapter_id": "demo",
+    "source_adapter": "ollama-local",
+    "is_demo": true,
+    "mode": "observe",
+    "verdict": "pass",
+    "proposed_verdict": "pass",
+    "findings": [],
+    "enforcement_status": "completed_demo",
+    "detector": "rules/0.1",
+    "policy_version": "0.1",
+    "latency_ms": 0.582,
+    "limitations": [
+      "heuristic_rules_only",
+      "semantic_model_unavailable",
+      "unmediated_tools_not_covered"
+    ],
+    "sequence": 10
+  },
+  "model": "qwen3:8b",
+  "response": "今日测试本地事件监控，未读取私密文件且无数据上传。",
+  "eval_count": 18,
+  "real_inference": true
+}

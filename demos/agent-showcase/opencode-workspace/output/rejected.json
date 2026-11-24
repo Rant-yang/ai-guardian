@@ -1,0 +1,26 @@
+[
+  {
+    "order_id": "opencode-workspace-005",
+    "errors": [
+      "unknown_product"
+    ]
+  },
+  {
+    "order_id": "opencode-workspace-013",
+    "errors": [
+      "invalid_quantity"
+    ]
+  },
+  {
+    "order_id": "opencode-workspace-026",
+    "errors": [
+      "invalid_price"
+    ]
+  },
+  {
+    "order_id": "opencode-workspace-041",
+    "errors": [
+      "invalid_status"
+    ]
+  }
+]

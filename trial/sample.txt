@@ -1,0 +1,3 @@
+Guardian trial sample
+Verification marker: GUARDIAN-TRIAL-READ-20261115
+This file contains no credentials or executable instructions.

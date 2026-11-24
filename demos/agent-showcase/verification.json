@@ -1,0 +1,17 @@
+{
+  "workspaces": [
+    {
+      "client": "claude-workspace",
+      "rows": 60,
+      "invalid": 4,
+      "python_syntax": "ok"
+    },
+    {
+      "client": "opencode-workspace",
+      "rows": 60,
+      "invalid": 4,
+      "python_syntax": "ok"
+    }
+  ],
+  "local_service": "health, two synthetic requests and unexpected-body rejection passed"
+}

@@ -1,0 +1,7 @@
+{
+  "currency": "CNY",
+  "expected_rows": 60,
+  "expected_valid": 56,
+  "expected_rejected": 4,
+  "client_lane": "opencode-workspace"
+}

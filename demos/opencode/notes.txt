@@ -1,0 +1,3 @@
+Guardian demo workspace.
+These notes contain no private data or credentials.
+Task: read this file and summarize it in one sentence.
