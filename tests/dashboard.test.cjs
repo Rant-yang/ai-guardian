@@ -149,14 +149,15 @@ function setup(pathname='/') {
     querySelectorAll(){return [];}
   }
   const elements=new Map();
-  const document={body:new Element(),hidden:false,getElementById(id){if(!elements.has(id))elements.set(id,new Element());return elements.get(id);},createElement(){return new Element();},querySelector(){return new Element();},querySelectorAll(){return [];}};
+  const listeners={};
+  const document={addEventListener(name,fn){listeners[name]=fn;},body:new Element(),hidden:false,getElementById(id){if(!elements.has(id))elements.set(id,new Element());return elements.get(id);},createElement(){return new Element();},querySelector(){return new Element();},querySelectorAll(){return [];}};
   let calls=0,offline=false;const requests=[];
   const event=(id,session)=>({event_id:id,session_id:session,is_demo:false,adapter_id:'claude-hook',source_adapter:'claude-hook',occurred_at:new Date().toISOString(),findings:[],tool_name:'Read',verdict:'pass',mode:'observe',enforcement_status:'decision_only'});
   const events=[event('one','s1'),event('two','s2')];
   const overview={modes:{'claude-hook':'observe','gemini-hook':'observe','opencode-plugin':'observe'},events,connections:[],integrations:[],diagnostics:[],sessions:events.map(e=>({key:`0:claude-hook:${e.session_id}`,adapter:'claude-hook',session_id:e.session_id,is_demo:false,events:1}))};
-  const context=vm.createContext({document,window:{},location:{hash:'',pathname},history:{replaceState(){}},URLSearchParams,AbortSignal,setInterval(){},Date,console,fetch:async(path,options)=>{calls++;requests.push({path,body:options.body?JSON.parse(options.body):null});if(offline)throw Error('offline');return {ok:true,json:async()=>path==='/api/launch-ticket'?{ticket:'single-use-fixture'}:overview};}});
+  const context=vm.createContext({document,window:{addEventListener(name,fn){listeners[name]=fn;}},location:{hash:'',pathname},history:{replaceState(){}},URLSearchParams,AbortSignal,setInterval(){},Date,console,fetch:async(path,options)=>{calls++;requests.push({path,body:options.body?JSON.parse(options.body):null});if(offline)throw Error('offline');return {ok:true,json:async()=>path==='/api/launch-ticket'?{ticket:'single-use-fixture'}:overview};}});
   vm.runInContext(fs.readFileSync('web/app.js','utf8'),context);
-  return {context,elements,document,requests,calls:()=>calls,offline(value){offline=value;}};
+  return {context,elements,document,listeners,requests,calls:()=>calls,offline(value){offline=value;}};
 }
 
 test('online old plugin remains visibly pending until a current revision heartbeat',()=>{
@@ -1206,4 +1207,19 @@ test('server catalog drives new client filters, modes and keyed visual events',a
  assert.equal(event.sourceId,'fixture-agent');assert.equal(event.sourceIndex,undefined);
  vm.runInContext('applyAdapterCatalog(rows)',t.context);assert.equal(catalogs.length,1);
  vm.runInContext('applyAdapterCatalog([rows[0],rows[0]])',t.context);assert.equal(catalogs.length,1);
+});
+
+
+test('wake refresh bypasses backoff with read-only, single-flight requests',async()=>{
+ const t=setup();t.offline(true);
+ await vm.runInContext("token='fixture';refresh()",t.context);
+ t.offline(false);await t.listeners.online();
+ assert.equal(vm.runInContext('connected',t.context),true);
+ const count=t.calls();await t.listeners.pageshow();assert.equal(t.calls(),count);
+ t.document.hidden=true;vm.runInContext('lastWakeRefresh=0',t.context);
+ await t.listeners.visibilitychange();assert.equal(t.calls(),count);
+ t.document.hidden=false;await t.listeners.visibilitychange();assert.equal(t.calls(),count+1);
+ assert.ok(t.requests.every(r=>r.body===null));
+ vm.runInContext('lastWakeRefresh=0;pending=true',t.context);
+ await t.listeners.online();assert.equal(t.calls(),count+1);
 });

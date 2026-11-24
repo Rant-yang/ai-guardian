@@ -14,13 +14,14 @@ ORIGIN='http://127.0.0.1:8765'
 
 
 def recover_position(bounds,workareas):
-    """Return a reachable position only when no screen has a usable visible patch."""
+    """Keep the top controls reachable, including after monitor removal."""
     x,y,width,height=bounds
     areas=[area for area in workareas if area[2]>0 and area[3]>0]
     if not areas or width<=0 or height<=0:return None
     for left,top,w,h in areas:
         visible_w=min(x+width,left+w)-max(x,left)
-        visible_h=min(y+height,top+h)-max(y,top)
+        # A visible lower corner is insufficient when the top controls are lost.
+        visible_h=min(y+min(48,height),top+h)-max(y,top)
         if visible_w>=min(48,width,w) and visible_h>=min(48,height,h):return None
     candidates=[(min(max(x,left),left+max(0,w-width)),
                  min(max(y,top),top+max(0,h-height))) for left,top,w,h in areas]

@@ -278,6 +278,17 @@ function setView(next){if(replay)return;view=next;selected=null;$('session-filte
 $('demo-view').onclick=()=>setView('demo');$('live-view').onclick=()=>setView('live');$('filter').onchange=render;
 $('demo').onclick=async()=>{busy=true;$('demo').disabled=true;try{setView('demo');const result=await api('/api/demo',{mode:$('mode').value});$('result').textContent='DEMO 验证完成 · 模拟上传 '+result.simulated_upload_count+' 次。未发出真实网络请求。';await refresh();}catch(error){$('result').textContent=error.message;}finally{busy=false;$('demo').disabled=!connected;}};
 setInterval(()=>{if(!document.hidden&&Date.now()>=nextRefreshAt)refresh();},1500);
+let lastWakeRefresh=0;
+function refreshOnWake(){
+  const now=Date.now();
+  if(document.hidden||!token||pending||now-lastWakeRefresh<1000)return;
+  lastWakeRefresh=now;nextRefreshAt=0;
+  // Only refresh read-only state. Never repeat a mutation after reconnecting.
+  return refresh();
+}
+document.addEventListener('visibilitychange',refreshOnWake);
+window.addEventListener('pageshow',refreshOnWake);
+window.addEventListener('online',refreshOnWake);
 $('source-filter').onchange=()=>{$('session-filter').value='';render();};
 $('session-filter').onchange=render;
 
